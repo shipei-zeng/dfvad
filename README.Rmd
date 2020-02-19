@@ -1,0 +1,88 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# dfvad
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+## Overview
+
+`dfvad` decomposes value added growth into explanatory factors.
+A cost constrained value added function is defined to specify the 
+production frontier. Industry estimates can also be aggregated using 
+a weighted average approach.
+
+## Installation
+
+`dfvad` is available from https://github.com/shipei-zeng/dfvad. To install it, `install_github` from the `devtools` package can be helpful.
+
+``` {r eval=FALSE}
+devtools::install_github("shipei-zeng/dfvad")
+```
+
+## Usage
+
+`value_decom()` for decomposing nominal value added growth identifies the contributions from efficiency change, growth of primary inputs, changes in output and input prices, technical progress and returns to scale.
+
+```{r}
+library(dfvad)
+# Use the built-in dataset "mining"
+table1 <- value_decom(c("h2","x2"), c("w2","u2"), "y2", "p2", "year", mining)[[1]]
+head(table1)
+table2 <- value_decom(c("h2","x2"), c("w2","u2"), "y2", "p2", "year", mining)[[2]]
+head(table2)
+```
+
+`t_weight()` follows a "bottom up" approach that uses weighted averages of the sectoral decompositions to provide an approximate decomposition into explanatory components at the aggregate level.
+
+```{r}
+library(dfvad)
+# Use the built-in dataset "sector"
+table1 <- t_weight("y", "p", "industry", "year", "alpha", "beta", "gamma", "epsilon", "tau", sector)[[1]]
+head(table1)
+table2 <- t_weight("y", "p", "industry", "year", "alpha", "beta", "gamma", "epsilon", "tau", sector)[[2]]
+head(table2)
+```
+
+## Display
+
+Here is an example to plot the explanatory factors of productivity (logarithmic indexes). Additional packages such as `ggplot2` and `reshape2` are required.
+
+```{r out.width = "60%", dpi=600}
+library(dfvad)
+library(ggplot2)
+library(reshape2)
+# Get the decomposition result
+df <- value_decom(c("h2","x2"), c("w2","u2"), "y2", "p2", "year", mining)[[2]]
+# Extract columns and rename
+df_cmpt <- data.frame(df[,"period"], log(df[,c("T", "E", "C")]))
+colnames(df_cmpt) <- c("year", "lnT", "lnE", "lnC")
+df_tfp <- data.frame(df[,"period"], log(df[,"TFP"]))
+colnames(df_tfp) <- c("year", "lnTFP")
+# Set the colour scheme
+palette_a <- c("goldenrod1", "seashell4", "red")
+# Convert data into a tidy form
+df_cmpt_tidy <- melt(df_cmpt, id.vars="year")
+# Plot the components
+plot_out <- ggplot(df_cmpt_tidy) + geom_bar(aes(x=year, y=value, fill=variable), stat="identity") +
+        geom_line(data=df_tfp, aes(x=year,y=lnTFP,color='black'), lwd=0.5) +
+        ylab('Log Index') + xlab('Year') + 
+        scale_fill_manual("", values=palette_a) + 
+        scale_colour_manual("", values=c('black'='black'), labels = c('lnTFP')) + 
+        scale_x_continuous(breaks = seq(min(df$period), max(df$period), by = 3)) + 
+        theme_classic()
+print(plot_out)
+```

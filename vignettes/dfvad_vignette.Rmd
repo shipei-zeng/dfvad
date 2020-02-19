@@ -1,0 +1,225 @@
+---
+title: "Using dfvad for Value Added Decomposition"
+author: "Shipei Zeng"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Using dfvad for Value Added Decomposition}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup, include=FALSE}
+library(dfvad)
+```
+
+# Introduction
+
+The package `dfvad` works for value added and productivity decompositions. Value added growth has been instrumental in our understanding of a large gap of economy performance over long terms, so we want to specify explanatory factors of value added growth. Diewert and Fox (2018), abbreviated as DF decomposition, have decomposed value added into five explanatory factors by assuming constant returns to scale. They are:
+
+* technical progress
+
+* inefficiency or efficiency depending on how we interpret it
+
+* input mix which means how input prices affect the output by changing relative allocation of inputs
+
+* net output prices
+
+* and input quantities.
+
+This approach is highlighted because it uses a Free Disposal Hull approach – no convexity assumptions. And it rules out technical regress. This is a feature of this approach because other researchers may argue that technical regress is there, but since knowledge is there and cannot be diminished, there should be no technical regress but inefficiency. It also has the advantage that it does not involve any econometric estimation, and involves only observable data. Quite objective.
+
+The decomposition is more than analysing value added growth; we can specify the components of productivity growth by focusing on technical progress, efficiency and input mix.
+
+# Methodology
+
+## Cost constrained value added function
+
+Let's get a closer look at how value added and productivity are decomposed. A cost constrained value added function is defined as the maximum value added subject to the constrains that a feasible input expenditure is equal to or less than the observed input expenditure:
+\begin{equation*}
+R^{t}(p,w,x)=\max_{y,z} \{p\cdot y:(y,z)\in S^{t};w\cdot z\leqslant w\cdot x\}
+\end{equation*}
+and a unit cost function is defined by minimizing the ratio of input values to output values:
+\begin{equation*}
+c^{t}(w,p)=\min_{s} \left\{\dfrac{w\cdot x^{s}}{p\cdot y^{s}}:s=1,\cdots,t\right\}
+\end{equation*}
+
+Under the assumption of constant returns to scale, a sequential approach is adopted where past observations up to and including the current period are used to determine the technology set. This approach rules out technical regress with period by period accumulation:
+\begin{equation*}
+\begin{split}
+R^{t}(p,w,x)&=\max_{s}\left\{p\cdot y^{s}\dfrac{w\cdot x}{w \cdot x^{s}}: s=1, \cdots,t\right\}\\
+&=\dfrac{w\cdot x}{c^{t}(w,p)}
+\end{split}
+\end{equation*}
+
+## Explanatory factors
+
+* Net output price indexes:
+
+\begin{equation*}
+\alpha (p^{t-1}, p^{t}, w, x, s)=\dfrac{R^{s}(p^{t}, w, x)}{R^{s}(p^{t-1}, w, x)}
+\end{equation*}
+
+* Input quantity indexes:
+
+\begin{equation*}
+\beta (x^{t-1}, x^{t}, w)=\dfrac{w\cdot x^{t}}{w\cdot x^{t-1}}
+\end{equation*}
+
+* Input mix indexes:
+
+\begin{equation*}
+\gamma (w^{t-1}, w^{t}, p, x, s)=\dfrac{R^{s}(p, w^{t}, x)}{R^{s}(p, w^{t-1}, x)}
+\end{equation*}
+
+* Returns to scale:
+
+\begin{equation*}
+\begin{split}
+\delta (x^{t-1}, x^{t}, p, w, s)&=\dfrac{R^{s}(p, w, x^{t})/R^{s}(p, w, x^{t-1})}{w\cdot x^{t}/w\cdot x^{t-1}}\\
+&=1
+\end{split}
+\end{equation*}
+
+* Growth in value added efficiency:
+
+\begin{equation*}
+e^{t}=\dfrac{p^{t}\cdot y^{t}}{R^{t}(p^{t},w^{t},x^{t})}\leqslant 1
+\end{equation*} 
+\begin{equation*}
+\varepsilon ^{t}=\dfrac{e^{t}}{e^{t-1}}
+\end{equation*}
+
+* Technical progress:
+
+\begin{equation*}
+\tau (t-1, t, p, w, x)=\dfrac{R^{t}(p, w, x)}{R^{t-1}(p, w, x)}
+\end{equation*}
+
+## Decomposition
+
+Straightforward algebra using the explanatory factors show that we have the following decomposition of the observed value added ratio:
+\begin{equation*}
+\dfrac{p^{t}\cdot y^{t}}{p^{t-1}\cdot y^{t-1}}=\alpha^{t}\cdot \beta^{t}\cdot \gamma^{t}\cdot \varepsilon^{t}\cdot  \tau^{t}
+\end{equation*}
+
+Productivity growth can be defined as an index of output growth divided by an index of input growth:
+\begin{equation*}
+\begin{split}
+TFPG^{t}&=\dfrac{p^{t}\cdot y^{t}/p^{t-1}\cdot y^{t-1}}{\alpha^{t}\cdot \beta^{t}}\\
+&=\gamma^{t}\cdot \varepsilon^{t}\cdot \tau^{t}
+\end{split}
+\end{equation*}
+
+## Weighted average approach
+
+Two options are provided for multiple industries: aggregation prior to decomposition, or decomposition prior to aggregation. The weighted average approach focuses on the latter option. It uses weighted averages of the sectoral decompositions so that an approximate decomposition into explanatory components at the aggregate level can be available:
+
+* Tornqvist explanatory factors: $$  \lambda \in \{\alpha, \beta, \gamma, \varepsilon, \tau \} $$
+
+\begin{equation*}
+\ln \lambda^{t\bullet}=\sum_{k=1}^{K}\dfrac{1}{2}(s^{kt}+s^{k, t-1})\ln \lambda^{kt}
+\end{equation*}
+
+* Approximation of value relatives:
+
+\begin{equation*}
+\begin{split}
+\ln \left(\dfrac{v^{t}}{v^{t-1}}\right)&\approx \sum_{k=1}^{K}\dfrac{1}{2}\left(s^{kt}+s^{k, t-1}\right)\ln \left(\dfrac{v^{kt}}{v^{k, t-1}}\right)\\
+&=\sum_{k=1}^{K}\dfrac{1}{2}\left(s^{kt}+s^{k, t-1}\right)\ln \left(\alpha^{kt}\beta^{kt}\gamma^{kt}\varepsilon^{kt}\tau^{kt}\right)\\
+&=\ln\alpha^{t\bullet}+\ln\beta^{t\bullet}+\ln\gamma^{t\bullet}+\ln\varepsilon^{t\bullet}+\ln\tau^{t\bullet}
+\end{split}
+\end{equation*}
+
+## Growth values and level values
+
+Growth values are period to period growth factors. Level values are cumulated explanatory variables defined as follows.
+
+* t=1:
+
+\begin{equation*}
+A^{1}=1,B^{1}=1,C^{1}=1, E^{1}=1, T^{1}=1
+\end{equation*}
+
+* t>1:
+\begin{equation*}
+\begin{split}
+&A^{t}=\alpha^{t}A^{t-1},B^{t}=\beta^{t}B^{t-1},C^{t}=\gamma^{t}C^{t-1}\\
+&E^{t}=\varepsilon^{t}E^{t-1},T^{t}=\tau^{t}T^{t-1}
+\end{split}
+\end{equation*} 
+
+Using cumulated explanatory factors, we have the levels decomposition for TFP:
+
+\begin{equation*}
+\begin{split}
+TFP^{t}&=\dfrac{p^{t}\cdot y^{t}}{p^{1}\cdot y^{1}\cdot A^{t}\cdot B^{t}}\\
+&=C^{t}E^{t}T^{t}
+\end{split}
+\end{equation*}
+
+
+# Sample data
+
+## `mining`
+
+A `mining` data set is enclosed as an example to run the function `value_decom()`. `mining` is constructed for the mining industry with data cubes from the Australia Bureau of Statistics (see Zeng et al., 2018). It consists of mining inputs and outputs adopted to demonstrate the decomposition of value added growth. Here is a glimpse of it:
+
+```{r}
+head(mining)
+```
+
+`year` is the time period column, `p2` is the output price, `w2` is the labour price, `u2` is the capital price, `y2` is the output quantity, `h2` is the labour quantity, and `x2` is the capital quantity.
+
+## `sector`
+
+A `sector` data set is enclosed as an example to run the function `t_weight()`. `sector` is constructed for 12 selected industries in Australia with explanatory factors produced by running `value_decom()` on each industry and binding them by row (see Zeng et al., 2018). It consists of explanatory factors of value added decomposition and is adopted to demonstrate the aggregation over industries. Here is a glimpse of it:
+
+```{r}
+head(sector)
+```
+
+`year` is the time period column, `p` is the output price, `y` is the output quantity, `alpha` is the net output price index, `beta` is the input quantity index, `gamma` is the input mix index, `epsilon` is the value added efficiency index, `tau` is the technical progress index, and `industry` is the industry code column.
+
+# Examples
+
+## Decomposing value added growth into explanatory factors
+
+`value_decom()` for decomposing nominal value added growth identifies the contributions from efficiency change, growth of primary inputs, changes in output and input prices, technical progress and returns to scale. Arguments required to decompose value added include `x`, `w`, `y`, `p`, `t` and `data`. `x` is a string indicating the quantity column, `w` is a string indicating the input price column, `y` is a string indicating the output quantity column, `p` is a string indicating the output price column, `t` is a string indicating the time period column, and `data` is a data frame containing the columns above. `x`, `w`, `y` and `p` can also be a vector of strings if there multiple inputs or outputs, and strings need to follow the same order. For example, in the `mining` data set where `h2` is the quantity of labour and `w2` is the price of labour, we need to put `x` as `c("h2","x2")` and `w` as `c("w2","u2")` so that `h2` and `w2` take the same position in the arguments.
+
+`value_decom()` returns a list containing a growth-value table and a level-value table of explanatory factors for value added growth decomposition. It is sorted by the time period. The growth-value table can be extracted using the number index 1 or the sub-list name “growth”. The level-value table can be extracted using the number 2 or the sub-list name “level”.
+
+```{r}
+# Use the built-in dataset "mining"
+table1 <- value_decom(c("h2","x2"), c("w2","u2"), "y2", "p2", "year", mining)[[1]]
+head(table1)
+table2 <- value_decom(c("h2","x2"), c("w2","u2"), "y2", "p2", "year", mining)[[2]]
+head(table2)
+```
+
+## Aggregation over sectors with a weighted average approach
+
+`t_weight()` follows a "bottom up" approach that uses weighted averages of the sectoral decompositions to provide an approximate decomposition into explanatory components at the aggregate level. Specifically, the Tornqvist index is adopted in the aggregation. Arguments required to aggregate explanatory factors include `y`, `p`, `id`, `t`, `alpha`, `beta`, `gamma`, `epsilon`, `tau` and `data`. `y` is a string indicating the output quantity column, `p` is a string indicating the output price column, `id` is a string indicating the industry column, `t` is a string indicating the time period column, `alpha`--`tau` are explanatory factors of value added decomposition, and `data` is a data frame containing the columns above. `y` and `p` can also be a vector of strings.
+
+`t_weight` returns a list containing a growth-value table and a level-value table of explanatory factors for value added growth decomposition. It is sorted by the time period. The growth-value table can be extracted using the number index 1 or the sub-list name “growth”. The level-value table can be extracted using the number 2 or the sub-list name “level”.
+
+```{r}
+# Use the built-in dataset "sector"
+table1 <- t_weight("y", "p", "industry", "year", "alpha", "beta", "gamma", "epsilon", "tau", sector)[[1]]
+head(table1)
+table2 <- t_weight("y", "p", "industry", "year", "alpha", "beta", "gamma", "epsilon", "tau", sector)[[2]]
+head(table2)
+```
+
+# References
+
+Diewert, W. E. and Fox, K. J. (2018). Decomposing value added growth into explanatory factors. In The Oxford Handbook of Productivity Analysis, chapter 19, page 625–662. Oxford University Press: New York.
+
+Zeng, S., Parsons, S., Diewert, W. E. and Fox, K. J. (2018). Industry and state level value added and productivity decompositions. Presented in EMG Worshop 2018, Sydney.
