@@ -20,7 +20,7 @@ average approach.
 install it, `install_github` from the `devtools` package can be helpful.
 
 ``` r
-devtools::install_github("shipei-zeng/dfvad", build_vignettes = TRUE)
+devtools::install_github("shipei-zeng/dfvad")
 ```
 
 ## Usage
