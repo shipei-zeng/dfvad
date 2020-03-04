@@ -1,4 +1,4 @@
-#' @title Sample data for value added decomposition
+#' @title Sample Data for Value Added Decomposition
 #'
 #' @description Mining inputs and outputs adopted to
 #' demonstrate the decomposition of value added growth.

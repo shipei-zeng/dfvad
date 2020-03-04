@@ -3,7 +3,7 @@
 \docType{data}
 \name{sector}
 \alias{sector}
-\title{Sample data for weighted average aggregation}
+\title{Sample Data for Weighted Average Aggregation}
 \format{A data frame with the following columns:
 \describe{
 \item{year}{A time period column.}

@@ -1,4 +1,4 @@
-#' @title Sample data for weighted average aggregation
+#' @title Sample Data for Weighted Average Aggregation
 #'
 #' @description Explanatory factors of value added decomposition
 #' adopted to demonstrate the aggregation over industries.

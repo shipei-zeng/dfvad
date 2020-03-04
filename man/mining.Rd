@@ -3,7 +3,7 @@
 \docType{data}
 \name{mining}
 \alias{mining}
-\title{Sample data for value added decomposition}
+\title{Sample Data for Value Added Decomposition}
 \format{A data frame with the following columns:
 \describe{
 \item{year}{A time period column.}
