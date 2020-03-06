@@ -20,7 +20,8 @@ test_that("Price indexes for matched items", {
 test_that("Price indexes for unmatched items", {
         list_test <- readRDS(system.file("extdata", "test_pb_index.rds", package = "dfvad"))
         list_p <- list()
-        df <- prices[[2]]
+        df <- prices[[1]]
+        df <- df[-c(1, nrow(df)),]
         df <- df[order(df[,"t"]),]
         for (typ in c("l", "p", "f", "t")) {
                 for (bsk in c("flx", "cst")) {

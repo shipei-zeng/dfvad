@@ -7,13 +7,12 @@
 \format{A list of data frames with the following columns:
 \describe{
 \item{t}{A time period column.}
-\item{p}{A price column.}
 \item{id}{An identity column.}
+\item{p}{A price column.}
 \item{q}{A quantity column.}
 }
-The first data frame is a balanced panel with matched items while
-the second data frame is a unbalanced panel with item 1 in period 1
-and item 4 in period 12 missing.}
+These data frames are produced with different elasticities
+that can be specified by the sub-list names.}
 \usage{
 prices
 }
