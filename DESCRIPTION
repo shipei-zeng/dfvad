@@ -1,7 +1,7 @@
 Package: dfvad
 Type: Package
 Title: Diewert and Fox's Method of Value Added Growth Decomposition
-Version: 0.3.1
+Version: 0.3.2
 Author: Shipei Zeng
 Maintainer: Shipei Zeng <shipei.zeng@unsw.edu.au>
 Description: Decomposing value added growth into explanatory factors.
