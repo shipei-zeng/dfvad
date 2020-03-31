@@ -43,7 +43,11 @@ bilateral approach.
 \examples{
 # Use the built-in data set "prices"
 # Laspeyres fixed base indexes with a constant basket
-index1 <- pb_index(prices[[1]], "p", "q", "id", "t", typ = "l", seq = "fb", bsk = "cst")
+df <- prices[[1]]
+df <- df[order(df[,"t"]),]
+index1 <- pb_index(df, "p", "q", "id", "t", typ = "l", seq = "fb", bsk = "cst")
 # Fisher chained indexes with a flexible basket
-index2 <- pb_index(prices[[2]], "p", "q", "id", "t")
+df <- prices[[2]]
+df <- df[order(df[,"t"]),]
+index2 <- pb_index(df, "p", "q", "id", "t")
 }

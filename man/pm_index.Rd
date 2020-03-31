@@ -47,6 +47,6 @@ A data frame consisting of the time period and price indexes.
 }
 \description{
 Multilateral indexes refer to the case when more than two periods
-are compared each time. `pm_index()` computes price indexes in a
+are compared each time. \code{pm_index()} computes price indexes in a
 multilateral approach.
 }
