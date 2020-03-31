@@ -33,6 +33,12 @@ a weighted average approach.
 devtools::install_github("shipei-zeng/dfvad")
 ```
 
+It has also been uploaded to the CRAN repository, which can be downloaded using:
+
+``` {r eval=FALSE}
+installed.packages("dfvad")
+```
+
 ## Usage
 
 `value_decom()` for decomposing nominal value added growth identifies the contributions from efficiency change, growth of primary inputs, changes in output and input prices, technical progress and returns to scale.
