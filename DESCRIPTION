@@ -12,7 +12,7 @@ Description: Decomposing value added growth into explanatory factors.
     <doi:10.1093/oxfordhb/9780190226718.013.19>
     and Zeng, Parsons, Diewert and Fox (2018)
     <https://www.business.unsw.edu.au/research-site/centreforappliedeconomicresearch-site/Documents/emg2018-6_SZeng_EMG-Slides.pdf>.
-Depends: R (>= 2.10)
+Depends: R (>= 3.5.0)
 License: GPL-2
 Encoding: UTF-8
 LazyData: true
