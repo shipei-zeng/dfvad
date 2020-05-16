@@ -26,6 +26,13 @@
 #' @usage
 #' dynamics(df, x, s, id, tm, typ = "df")
 #'
+#' @examples
+#' # Use the built-in data set "firms"
+#' # DF decomposition of firm dynamics
+#' dym_df <- dynamics(firms, "tfp", "s", "id", "t")
+#' # BG decomposition of firm dynamics
+#' dym_bg <- dynamics(firms, "tfp", "s", "id", "t", "bg")
+#'
 #' @export
 dynamics <- function(df, x, s, id, tm, typ = "df") {
         # data preparation
