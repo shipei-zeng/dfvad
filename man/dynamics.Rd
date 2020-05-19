@@ -34,3 +34,11 @@ from incumbents, entrants and exits. It applies to other
 weighted aggregation measures analogous to aggregate productivity
 as well.
 }
+\examples{
+# Use the built-in data set "firms"
+# DF decomposition of firm dynamics
+dym_df <- dynamics(firms, "tfp", "s", "id", "t")
+# BG decomposition of firm dynamics
+dym_bg <- dynamics(firms, "tfp", "s", "id", "t", "bg")
+
+}
