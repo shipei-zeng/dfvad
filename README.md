@@ -23,12 +23,15 @@ install it, `install_github` from the `devtools` package can be helpful.
 devtools::install_github("shipei-zeng/dfvad")
 ```
 
-If warning messages show that the URL cannot be opened, please set the
+If error messages show that the URL cannot be opened, please set the
 download option before installing it.
 
 ``` r
 options(download.file.method = "libcurl")
 ```
+
+If error messages show that schannel failed to receive handshake, please
+delete the previous package before updating it.
 
 It has also been uploaded to the CRAN repository, which can be
 downloaded using:
