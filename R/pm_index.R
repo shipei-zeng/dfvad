@@ -39,6 +39,26 @@
 #' pm_index(df, p, qty, id, tm, typ = "geks", len = NULL, lnk = NULL, bsk = "flx", wd = "flx")
 #'
 #' @export
+#'
+#' @examples
+#' # Use the built-in data set "prices"
+#' # matched items
+#' df <- prices[[1]]
+#' df <- df[order(df[,"t"]),]
+#' # GEKS price indexes with a constant basket over periods
+#' index1 <- pm_index(df, "p", "q", "id", "t", typ = "geks", bsk = "cst")
+#' # unmatched items
+#' df_add <- matrix(c(1, 6, 12, 5, 6, 7, 0.5, 0.5, 0.5, 9, 9, 9), nrow=3)
+#' df_add <- as.data.frame(df_add)
+#' colnames(df_add) <- colnames(df)
+#' df <- rbind(df, df_add)
+#' df <- df[order(df[,"t"]),]
+#' # CCDI price indexes with a flexible basket over periods
+#' index2 <- pm_index(df, "p", "q", "id", "t", typ = "ccdi", bsk = "flx")
+#' # CCDI price indexes with rolling windows (window length at 11, linking at the first observation)
+#' index3 <- pm_index(df, "p", "q", "id", "t", typ = "ccdi", len = 11, lnk = 1)
+#' # CCDI price indexes with rolling windows (window length at 11, linking with mean splices)
+#' index4 <- pm_index(df, "p", "q", "id", "t", typ = "ccdi", len = 11, lnk = "mean")
 pm_index <- function(df, p, qty, id, tm, typ="geks", len=NULL, lnk=NULL, bsk="flx", wd="flx") {
         # data preparation
         df <- df[, c(p, qty, id, tm)]
