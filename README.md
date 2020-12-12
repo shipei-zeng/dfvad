@@ -37,7 +37,7 @@ It has also been uploaded to the CRAN repository, which can be
 downloaded using:
 
 ``` r
-installed.packages("dfvad")
+install.packages("dfvad")
 ```
 
 ## Usage

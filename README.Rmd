@@ -41,7 +41,7 @@ options(download.file.method = "libcurl")
 
 If error messages show that schannel failed to receive handshake, please delete the previous package before updating it.
 
-It has also been uploaded to the CRAN repository, which can be downloaded with:
+It has also been uploaded to the CRAN repository, which can be downloaded using:
 
 ``` {r eval=FALSE}
 install.packages("dfvad")
