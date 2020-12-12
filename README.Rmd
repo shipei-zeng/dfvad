@@ -44,7 +44,7 @@ If error messages show that schannel failed to receive handshake, please delete 
 It has also been uploaded to the CRAN repository, which can be downloaded using:
 
 ``` {r eval=FALSE}
-installed.packages("dfvad")
+install.packages("dfvad")
 ```
 
 ## Usage
